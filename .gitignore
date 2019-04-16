@@ -15,6 +15,7 @@ npm-debug.log*
 /*.egg/
 /.cache/
 /.pytest_cache/
+/test_app/wagtail_drawer
 
 ### JetBrains
 .idea/
