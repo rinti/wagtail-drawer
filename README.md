@@ -11,6 +11,12 @@ To install it just pip install like this
 pip install wagtail-drawer
 ```
 
+## Developing
+
+1. cd into test_app
+2. make start
+3. you can now start working at localhost:8000/admin with user: admin, password: admin :)
+
 ## Running the tests
 
 ```
