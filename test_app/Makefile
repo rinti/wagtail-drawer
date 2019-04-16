@@ -1,4 +1,4 @@
 setup:
-	ln -s ../wagtail_drawer .
+	cp -r ../wagtail_drawer .
 	docker-compose build
 	docker-compose up
