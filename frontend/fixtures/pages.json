@@ -1,0 +1,35 @@
+{
+    "meta": {
+        "total_count": 1
+    },
+    "items": [
+        {
+            "id": 3,
+            "meta": {
+                "type": "home.HomePage",
+                "detail_url": "http://localhost/admin/api/v2beta/pages/3/",
+                "html_url": "http://localhost/",
+                "slug": "home",
+                "first_published_at": null,
+                "latest_revision_created_at": null,
+                "status": {
+                    "status": "live",
+                    "live": true,
+                    "has_unpublished_changes": false
+                },
+                "children": {
+                    "count": 1,
+                    "listing_url": "http://localhost/admin/api/v2beta/pages/?child_of=3"
+                }
+            },
+            "title": "Home",
+            "admin_display_title": "Home"
+        }
+    ],
+    "__types": {
+        "home.HomePage": {
+            "verbose_name": "home page",
+            "verbose_name_plural": "home pages"
+        }
+    }
+}

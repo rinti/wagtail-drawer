@@ -1,3 +1,5 @@
+
+(function(l, i, v, e) { v = l.createElement(i); v.async = 1; v.src = '//' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; e = l.getElementsByTagName(i)[0]; e.parentNode.insertBefore(v, e)})(document, 'script');
 var app = (function () {
 	'use strict';
 
@@ -57,11 +59,6 @@ var app = (function () {
 
 	function space() {
 		return text(' ');
-	}
-
-	function listen(node, event, handler, options) {
-		node.addEventListener(event, handler, options);
-		return () => node.removeEventListener(event, handler, options);
 	}
 
 	function children(element) {
@@ -289,104 +286,14 @@ var app = (function () {
 
 	const file = "src/App.svelte";
 
-	function get_each_context_1(ctx, list, i) {
-		const child_ctx = Object.create(ctx);
-		child_ctx.child = list[i];
-		return child_ctx;
-	}
-
 	function get_each_context(ctx, list, i) {
 		const child_ctx = Object.create(ctx);
 		child_ctx.item = list[i];
 		return child_ctx;
 	}
 
-	// (29:12) {#if item.meta.children}
-	function create_if_block_2(ctx) {
-		var t;
-
-		return {
-			c: function create() {
-				t = text(">");
-			},
-
-			m: function mount(target, anchor) {
-				insert(target, t, anchor);
-			},
-
-			d: function destroy(detaching) {
-				if (detaching) {
-					detach(t);
-				}
-			}
-		};
-	}
-
-	// (31:8) {#if item.items}
+	// (55:8) {#if item.meta.children}
 	function create_if_block(ctx) {
-		var ul;
-
-		var each_value_1 = ctx.item.items;
-
-		var each_blocks = [];
-
-		for (var i = 0; i < each_value_1.length; i += 1) {
-			each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
-		}
-
-		return {
-			c: function create() {
-				ul = element("ul");
-
-				for (var i = 0; i < each_blocks.length; i += 1) {
-					each_blocks[i].c();
-				}
-				add_location(ul, file, 31, 12, 805);
-			},
-
-			m: function mount(target, anchor) {
-				insert(target, ul, anchor);
-
-				for (var i = 0; i < each_blocks.length; i += 1) {
-					each_blocks[i].m(ul, null);
-				}
-			},
-
-			p: function update(changed, ctx) {
-				if (changed.data) {
-					each_value_1 = ctx.item.items;
-
-					for (var i = 0; i < each_value_1.length; i += 1) {
-						const child_ctx = get_each_context_1(ctx, each_value_1, i);
-
-						if (each_blocks[i]) {
-							each_blocks[i].p(changed, child_ctx);
-						} else {
-							each_blocks[i] = create_each_block_1(child_ctx);
-							each_blocks[i].c();
-							each_blocks[i].m(ul, null);
-						}
-					}
-
-					for (; i < each_blocks.length; i += 1) {
-						each_blocks[i].d(1);
-					}
-					each_blocks.length = each_value_1.length;
-				}
-			},
-
-			d: function destroy(detaching) {
-				if (detaching) {
-					detach(ul);
-				}
-
-				destroy_each(each_blocks, detaching);
-			}
-		};
-	}
-
-	// (35:24) {#if child.meta.children}
-	function create_if_block_1(ctx) {
 		var t;
 
 		return {
@@ -406,130 +313,42 @@ var app = (function () {
 		};
 	}
 
-	// (33:16) {#each item.items as child}
-	function create_each_block_1(ctx) {
-		var a, t0, t1_value = ctx.child.title, t1, dispose;
+	// (54:0) {#each data.items as item}
+	function create_each_block(ctx) {
+		var li, t0, t1_value = ctx.item.title, t1;
 
-		var if_block = (ctx.child.meta.children) && create_if_block_1(ctx);
-
-		function click_handler_1(...args) {
-			return ctx.click_handler_1(ctx, ...args);
-		}
+		var if_block = (ctx.item.meta.children) && create_if_block(ctx);
 
 		return {
 			c: function create() {
-				a = element("a");
+				li = element("li");
 				if (if_block) if_block.c();
 				t0 = space();
 				t1 = text(t1_value);
-				a.href = "";
-				add_location(a, file, 33, 20, 874);
-				dispose = listen(a, "click", click_handler_1);
+				add_location(li, file, 54, 4, 1632);
 			},
 
 			m: function mount(target, anchor) {
-				insert(target, a, anchor);
-				if (if_block) if_block.m(a, null);
-				append(a, t0);
-				append(a, t1);
+				insert(target, li, anchor);
+				if (if_block) if_block.m(li, null);
+				append(li, t0);
+				append(li, t1);
 			},
 
-			p: function update(changed, new_ctx) {
-				ctx = new_ctx;
-				if (ctx.child.meta.children) {
+			p: function update(changed, ctx) {
+				if (ctx.item.meta.children) {
 					if (!if_block) {
-						if_block = create_if_block_1(ctx);
+						if_block = create_if_block(ctx);
 						if_block.c();
-						if_block.m(a, t0);
+						if_block.m(li, t0);
 					}
 				} else if (if_block) {
 					if_block.d(1);
 					if_block = null;
 				}
 
-				if ((changed.data) && t1_value !== (t1_value = ctx.child.title)) {
-					set_data(t1, t1_value);
-				}
-			},
-
-			d: function destroy(detaching) {
-				if (detaching) {
-					detach(a);
-				}
-
-				if (if_block) if_block.d();
-				dispose();
-			}
-		};
-	}
-
-	// (26:0) {#each data.items as item}
-	function create_each_block(ctx) {
-		var li, a, t0, t1_value = ctx.item.title, t1, t2, t3, dispose;
-
-		var if_block0 = (ctx.item.meta.children) && create_if_block_2(ctx);
-
-		function click_handler(...args) {
-			return ctx.click_handler(ctx, ...args);
-		}
-
-		var if_block1 = (ctx.item.items) && create_if_block(ctx);
-
-		return {
-			c: function create() {
-				li = element("li");
-				a = element("a");
-				if (if_block0) if_block0.c();
-				t0 = space();
-				t1 = text(t1_value);
-				t2 = space();
-				if (if_block1) if_block1.c();
-				t3 = space();
-				a.href = "#";
-				add_location(a, file, 27, 8, 642);
-				add_location(li, file, 26, 4, 629);
-				dispose = listen(a, "click", click_handler);
-			},
-
-			m: function mount(target, anchor) {
-				insert(target, li, anchor);
-				append(li, a);
-				if (if_block0) if_block0.m(a, null);
-				append(a, t0);
-				append(a, t1);
-				append(li, t2);
-				if (if_block1) if_block1.m(li, null);
-				append(li, t3);
-			},
-
-			p: function update(changed, new_ctx) {
-				ctx = new_ctx;
-				if (ctx.item.meta.children) {
-					if (!if_block0) {
-						if_block0 = create_if_block_2(ctx);
-						if_block0.c();
-						if_block0.m(a, t0);
-					}
-				} else if (if_block0) {
-					if_block0.d(1);
-					if_block0 = null;
-				}
-
 				if ((changed.data) && t1_value !== (t1_value = ctx.item.title)) {
 					set_data(t1, t1_value);
-				}
-
-				if (ctx.item.items) {
-					if (if_block1) {
-						if_block1.p(changed, ctx);
-					} else {
-						if_block1 = create_if_block(ctx);
-						if_block1.c();
-						if_block1.m(li, t3);
-					}
-				} else if (if_block1) {
-					if_block1.d(1);
-					if_block1 = null;
 				}
 			},
 
@@ -538,9 +357,7 @@ var app = (function () {
 					detach(li);
 				}
 
-				if (if_block0) if_block0.d();
-				if (if_block1) if_block1.d();
-				dispose();
+				if (if_block) if_block.d();
 			}
 		};
 	}
@@ -563,7 +380,7 @@ var app = (function () {
 				for (var i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].c();
 				}
-				add_location(ul, file, 24, 0, 593);
+				add_location(ul, file, 52, 0, 1596);
 			},
 
 			l: function claim(nodes) {
@@ -615,44 +432,53 @@ var app = (function () {
 	}
 
 	function instance($$self, $$props, $$invalidate) {
-		let { data = {items: []}, mock = true } = $$props;
+		let { data, mock = true } = $$props;
 
-	    const fetchInitial = async () => {
-	        const response = await fetch('http://localhost:8000/admin/api/v2beta/pages/?child_of=1&for_explorer=1');
-	        $$invalidate('data', data = await response.json());
-	        console.log(data);
-	    };
+	    // fetchStuff()
 
-	    const fetchChildren = async (e, item) => {
-	        e.preventDefault();
-	        const url = item.meta.children.listing_url.replace('localhost', 'localhost:8000');
-
-	        const response = await fetch(url);
-	        $$invalidate('data', data = await response.json());
-	    };
-
-	    fetchInitial();
-
-		function click_handler({ item }, e) {
-			return fetchChildren(e, item);
-		}
-
-		function click_handler_1({ child }, e) {
-			return fetchChildren(e, child);
-		}
+	    $$invalidate('data', data = 
+	        {
+	            "meta": {
+	                "total_count": 1
+	            },
+	            "items": [
+	                {
+	                    "id": 3,
+	                    "meta": {
+	                        "type": "home.HomePage",
+	                        "detail_url": "http://localhost/admin/api/v2beta/pages/3/",
+	                        "html_url": "http://localhost/",
+	                        "slug": "home",
+	                        "first_published_at": null,
+	                        "latest_revision_created_at": null,
+	                        "status": {
+	                            "status": "live",
+	                            "live": true,
+	                            "has_unpublished_changes": false
+	                        },
+	                        "children": {
+	                            "count": 1,
+	                            "listing_url": "http://localhost/admin/api/v2beta/pages/?child_of=3"
+	                        }
+	                    },
+	                    "title": "Home",
+	                    "admin_display_title": "Home"
+	                }
+	            ],
+	            "__types": {
+	                "home.HomePage": {
+	                    "verbose_name": "home page",
+	                    "verbose_name_plural": "home pages"
+	                }
+	            }
+	        });
 
 		$$self.$set = $$props => {
 			if ('data' in $$props) $$invalidate('data', data = $$props.data);
 			if ('mock' in $$props) $$invalidate('mock', mock = $$props.mock);
 		};
 
-		return {
-			data,
-			mock,
-			fetchChildren,
-			click_handler,
-			click_handler_1
-		};
+		return { data, mock };
 	}
 
 	class App extends SvelteComponentDev {
@@ -697,4 +523,4 @@ var app = (function () {
 	return app;
 
 }());
-//# sourceMappingURL=wagtail-drawer.js.map
+//# sourceMappingURL=bundle.js.map
