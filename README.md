@@ -24,6 +24,14 @@ Disclaimer: This is unfortunately very biased to my setup at the moment (OSX). S
 2. `make loaddata` (optional, will create some initial page structure and admin user)
 3. you can now start working at http://localhost:8000/admin with user: admin, password: admin :)
 
+For frontend developing:
+
+1. Follow the instructions for backend to set that up
+2. `cd frontend && npm i`
+3. `npm run dev`
+4. When making changes `make update` in the wagtail_drawer_test_app folder.
+
+
 ### Coding style
 
 Code should be formatted with black
