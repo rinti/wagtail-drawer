@@ -13,9 +13,10 @@ pip install wagtail-drawer
 
 ## Developing
 
-1. cd into test_app
-2. make start
-3. you can now start working at localhost:8000/admin with user: admin, password: admin :)
+1. `cd wagtail_drawer_test_app`
+2. `make setup`
+2. `make loaddata` (optional, will create some initial page structure and admin user)
+3. you can now start working at http://localhost:8000/admin with user: admin, password: admin :)
 
 ## Running the tests
 
