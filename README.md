@@ -13,6 +13,8 @@ pip install wagtail-drawer
 
 ## Developing
 
+Disclaimer: This is unfortunately very biased to my setup at the moment (OSX). So I'm not sure this works exactly the same on windows/linux.
+
 1. `cd wagtail_drawer_test_app`
 2. `make setup`
 2. `make loaddata` (optional, will create some initial page structure and admin user)
