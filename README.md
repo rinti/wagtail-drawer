@@ -11,10 +11,6 @@ To install it just pip install like this
 pip install wagtail-drawer
 ```
 
-### And coding style tests
-
-Code should be formatted with black
-
 ## Contributing
 
 Create an issue or start a pull request
@@ -27,6 +23,11 @@ Disclaimer: This is unfortunately very biased to my setup at the moment (OSX). S
 2. `make setup`
 2. `make loaddata` (optional, will create some initial page structure and admin user)
 3. you can now start working at http://localhost:8000/admin with user: admin, password: admin :)
+
+### Coding style
+
+Code should be formatted with black
+
 
 ### Running the tests
 
