@@ -1,5 +1,9 @@
 # wagtail-drawer
 
+## ** 
+## ** This is very much work in progress and not ready for use yet **
+## ** 
+
 A wagtail-app to visualize the page structure like a drawer with different levels
 
 ## Getting Started
