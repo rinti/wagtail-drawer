@@ -20,7 +20,7 @@ export default {
     svelte({
       dev: !production,
       css: function (css) {
-        css.write('../wagtail_drawer/static/wagtail_drawer/wagtail-drawer.js');
+        css.write('../wagtail_drawer/static/wagtail_drawer/wagtail-drawer.css');
       },
     }),
     resolve(),

@@ -1,3 +1,5 @@
+from django.utils.html import format_html
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from wagtail.core import hooks
@@ -14,4 +16,11 @@ def register_explorer_menu_item():
         name="explorer",
         classnames="icon icon-folder-open-inverse",
         order=10,
+    )
+
+
+@hooks.register("insert_global_admin_css")
+def global_admin_css():
+    return format_html(
+        '<link rel="stylesheet" href="{}">', static("wagtail_drawer/wagtail-drawer.css")
     )

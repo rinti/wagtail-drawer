@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "wagtail-drawer.css",
+  "sources": [
+    "../../../frontend/src/App.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n    import Item from './Item.svelte';\n    import { onMount } from 'svelte';\n\n    let items = [];\n    let isOpen = false;\n\n    const fetchInitial = async () => {\n        const response = await fetch('http://localhost:8000/admin/api/v2beta/pages/?child_of=1&for_explorer=1')\n        const data = await response.json()\n        items = data.items\n    }\n\n    const topLevelItems = () => {\n        const x = items.filter(item => item.parent === undefined)\n        return x\n    }\n\n    onMount(() => {\n        // Todo: Remove this hack\n        setTimeout(() => {\n            const clickEl = document.querySelector('[data-drawer-menu-item]')\n            clickEl.addEventListener('click', (e) => {\n                e.preventDefault()\n                isOpen = !isOpen\n            })\n        }, 1000)\n    })\n\n    $: classes = isOpen ? 'Drawer--open' : ''\n\n    fetchInitial()\n</script>\n\n<style>\n    .Drawer {\n        position: absolute;\n        right: 100px;\n        left: 100px;\n        background-color: #fff;\n        padding: 50px;\n        z-index: -1000px;\n        opacity: 0;\n        height: fit-content;\n        transition: opacity .4s ease-in-out, transform .4s ease-in-out;\n        transform: translateY(-200px);\n        will-change: opacity, transform;\n    }\n\n    .Drawer--open {\n        opacity: 1;\n        z-index: 1000;\n        transform: translateY(0);\n    }\n</style>\n\n<div class=\"Drawer {classes}\">\n    <ul>\n        {#each topLevelItems(items) as item}\n            <Item {item} />\n        {/each}\n    </ul>\n</div>\n"
+  ],
+  "names": [],
+  "mappings": "AAmCI,OAAO,aAAC,CAAC,AACL,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,KAAK,CACZ,IAAI,CAAE,KAAK,CACX,gBAAgB,CAAE,IAAI,CACtB,OAAO,CAAE,IAAI,CACb,OAAO,CAAE,OAAO,CAChB,OAAO,CAAE,CAAC,CACV,MAAM,CAAE,WAAW,CACnB,UAAU,CAAE,OAAO,CAAC,GAAG,CAAC,WAAW,CAAC,CAAC,SAAS,CAAC,GAAG,CAAC,WAAW,CAC9D,SAAS,CAAE,WAAW,MAAM,CAAC,CAC7B,WAAW,CAAE,OAAO,CAAC,CAAC,SAAS,AACnC,CAAC,AAED,aAAa,aAAC,CAAC,AACX,OAAO,CAAE,CAAC,CACV,OAAO,CAAE,IAAI,CACb,SAAS,CAAE,WAAW,CAAC,CAAC,AAC5B,CAAC"
+}

@@ -17,7 +17,7 @@
 </style>
 
 <li>
-    <a href="#" on:click={(e) => fetchChildren(item)}>
+    <a href="#" on:click={() => fetchChildren(item)}>
         {#if hasChildren}&gt;{/if} {item.title}
     </a>
     {#if children.length > 0}

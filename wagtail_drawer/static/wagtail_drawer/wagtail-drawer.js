@@ -79,6 +79,15 @@ var app = (function () {
 		current_component = component;
 	}
 
+	function get_current_component() {
+		if (!current_component) throw new Error(`Function called outside component initialization`);
+		return current_component;
+	}
+
+	function onMount(fn) {
+		get_current_component().$$.on_mount.push(fn);
+	}
+
 	const dirty_components = [];
 
 	const resolved_promise = Promise.resolve();
@@ -367,7 +376,7 @@ var app = (function () {
 				for (var i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].c();
 				}
-				add_location(ul, file, 23, 8, 584);
+				add_location(ul, file, 23, 8, 583);
 			},
 
 			m: function mount(target, anchor) {
@@ -581,7 +590,7 @@ var app = (function () {
 	        $$invalidate('children', children = data.items);
 	    };
 
-		function click_handler(e) {
+		function click_handler() {
 			return fetchChildren(item);
 		}
 
@@ -634,7 +643,7 @@ var app = (function () {
 		return child_ctx;
 	}
 
-	// (24:4) {#each topLevelItems(items) as item}
+	// (59:8) {#each topLevelItems(items) as item}
 	function create_each_block$1(ctx) {
 		var current;
 
@@ -678,7 +687,7 @@ var app = (function () {
 	}
 
 	function create_fragment$1(ctx) {
-		var ul, current;
+		var div, ul, div_class_value, current;
 
 		var each_value = ctx.topLevelItems(ctx.items);
 
@@ -703,12 +712,15 @@ var app = (function () {
 
 		return {
 			c: function create() {
+				div = element("div");
 				ul = element("ul");
 
 				for (var i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].c();
 				}
-				add_location(ul, file$1, 22, 0, 469);
+				add_location(ul, file$1, 57, 4, 1412);
+				div.className = div_class_value = "Drawer " + ctx.classes + " svelte-w9mnu";
+				add_location(div, file$1, 56, 0, 1377);
 			},
 
 			l: function claim(nodes) {
@@ -716,7 +728,8 @@ var app = (function () {
 			},
 
 			m: function mount(target, anchor) {
-				insert(target, ul, anchor);
+				insert(target, div, anchor);
+				append(div, ul);
 
 				for (var i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].m(ul, null);
@@ -747,6 +760,10 @@ var app = (function () {
 					for (; i < each_blocks.length; i += 1) outro_block(i, 1, 1);
 					check_outros();
 				}
+
+				if ((!current || changed.classes) && div_class_value !== (div_class_value = "Drawer " + ctx.classes + " svelte-w9mnu")) {
+					div.className = div_class_value;
+				}
 			},
 
 			i: function intro(local) {
@@ -765,7 +782,7 @@ var app = (function () {
 
 			d: function destroy(detaching) {
 				if (detaching) {
-					detach(ul);
+					detach(div);
 				}
 
 				destroy_each(each_blocks, detaching);
@@ -774,7 +791,10 @@ var app = (function () {
 	}
 
 	function instance$1($$self, $$props, $$invalidate) {
-		let items = [];
+		
+
+	    let items = [];
+	    let isOpen = false;
 
 	    const fetchInitial = async () => {
 	        const response = await fetch('http://localhost:8000/admin/api/v2beta/pages/?child_of=1&for_explorer=1');
@@ -787,9 +807,25 @@ var app = (function () {
 	        return x
 	    };
 
+	    onMount(() => {
+	        // Todo: Remove this hack
+	        setTimeout(() => {
+	            const clickEl = document.querySelector('[data-drawer-menu-item]');
+	            clickEl.addEventListener('click', (e) => {
+	                e.preventDefault();
+	                $$invalidate('isOpen', isOpen = !isOpen);
+	            });
+	        }, 1000);
+	    });
+
 	    fetchInitial();
 
-		return { items, topLevelItems };
+		let classes;
+		$$self.$$.update = ($$dirty = { isOpen: 1 }) => {
+			if ($$dirty.isOpen) { $$invalidate('classes', classes = isOpen ? 'Drawer--open' : ''); }
+		};
+
+		return { items, topLevelItems, classes };
 	}
 
 	class App extends SvelteComponentDev {
