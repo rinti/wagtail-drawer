@@ -6,10 +6,12 @@ from wagtail_drawer.menu import DrawerMenuItem
 from wagtail.admin.wagtail_hooks import ExplorerMenuItem
 
 
-@hooks.register('register_admin_menu_item')
+@hooks.register("register_admin_menu_item")
 def register_explorer_menu_item():
     return DrawerMenuItem(
-        _('Drawer'), reverse('wagtailadmin_explore_root'),
-        name='explorer',
-        classnames='icon icon-folder-open-inverse',
-        order=10)
+        _("Drawer"),
+        reverse("wagtailadmin_explore_root"),
+        name="explorer",
+        classnames="icon icon-folder-open-inverse",
+        order=10,
+    )
