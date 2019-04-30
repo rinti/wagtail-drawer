@@ -8,4 +8,4 @@ class DrawerMenuItem(ExplorerMenuItem):
 
     @property
     def media(self):
-        return forms.Media(js=[static('wagtail_drawer/js/drawer-menu.js')])
+        return forms.Media(js=[static('wagtail_drawer/wagtail-drawer.js')])
