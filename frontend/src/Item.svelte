@@ -11,20 +11,27 @@
     }
 
     $: hasChildren = item.meta.children && item.meta.children.count > 0;
+    $: linkClasses = hasChildren ? 'icon icon-folder-inverse' : 'icon icon-doc-full-inverse';
 </script>
 
 <style>
+    .Item {
+        padding-left: 10px;
+    }
+    .Item__Link {
+        display: block;
+        padding: 5px 10px;
+        border-bottom: 1px solid #f1f1f1;
+    }
 </style>
 
-<li>
-    <a href="#" on:click={() => fetchChildren(item)}>
-        {#if hasChildren}&gt;{/if} {item.title}
+<div class="Item">
+    <a href="#" class="Item__Link {linkClasses}" on:click={() => fetchChildren(item)}>
+        {item.title}
     </a>
     {#if children.length > 0}
-        <ul>
-            {#each children as child}
-                <svelte:self item={child} />
-            {/each}
-        </ul>
+        {#each children as child}
+            <svelte:self item={child} />
+        {/each}
     {/if}
-</li>
+</div>

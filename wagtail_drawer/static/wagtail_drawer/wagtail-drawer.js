@@ -59,6 +59,10 @@ var app = (function () {
 		return text(' ');
 	}
 
+	function empty() {
+		return text('');
+	}
+
 	function listen(node, event, handler, options) {
 		node.addEventListener(event, handler, options);
 		return () => node.removeEventListener(event, handler, options);
@@ -323,30 +327,9 @@ var app = (function () {
 		return child_ctx;
 	}
 
-	// (21:8) {#if hasChildren}
-	function create_if_block_1(ctx) {
-		var t;
-
-		return {
-			c: function create() {
-				t = text(">");
-			},
-
-			m: function mount(target, anchor) {
-				insert(target, t, anchor);
-			},
-
-			d: function destroy(detaching) {
-				if (detaching) {
-					detach(t);
-				}
-			}
-		};
-	}
-
-	// (23:4) {#if children.length > 0}
+	// (32:4) {#if children.length > 0}
 	function create_if_block(ctx) {
-		var ul, current;
+		var each_1_anchor, current;
 
 		var each_value = ctx.children;
 
@@ -371,21 +354,19 @@ var app = (function () {
 
 		return {
 			c: function create() {
-				ul = element("ul");
-
 				for (var i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].c();
 				}
-				add_location(ul, file, 23, 8, 583);
+
+				each_1_anchor = empty();
 			},
 
 			m: function mount(target, anchor) {
-				insert(target, ul, anchor);
-
 				for (var i = 0; i < each_blocks.length; i += 1) {
-					each_blocks[i].m(ul, null);
+					each_blocks[i].m(target, anchor);
 				}
 
+				insert(target, each_1_anchor, anchor);
 				current = true;
 			},
 
@@ -403,7 +384,7 @@ var app = (function () {
 							each_blocks[i] = create_each_block(child_ctx);
 							each_blocks[i].c();
 							each_blocks[i].i(1);
-							each_blocks[i].m(ul, null);
+							each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
 						}
 					}
 
@@ -428,16 +409,16 @@ var app = (function () {
 			},
 
 			d: function destroy(detaching) {
-				if (detaching) {
-					detach(ul);
-				}
-
 				destroy_each(each_blocks, detaching);
+
+				if (detaching) {
+					detach(each_1_anchor);
+				}
 			}
 		};
 	}
 
-	// (25:12) {#each children as child}
+	// (33:8) {#each children as child}
 	function create_each_block(ctx) {
 		var current;
 
@@ -481,24 +462,22 @@ var app = (function () {
 	}
 
 	function create_fragment(ctx) {
-		var li, a, t0, t1_value = ctx.item.title, t1, t2, current, dispose;
+		var div, a, t0_value = ctx.item.title, t0, a_class_value, t1, current, dispose;
 
-		var if_block0 = (ctx.hasChildren) && create_if_block_1(ctx);
-
-		var if_block1 = (ctx.children.length > 0) && create_if_block(ctx);
+		var if_block = (ctx.children.length > 0) && create_if_block(ctx);
 
 		return {
 			c: function create() {
-				li = element("li");
+				div = element("div");
 				a = element("a");
-				if (if_block0) if_block0.c();
-				t0 = space();
-				t1 = text(t1_value);
-				t2 = space();
-				if (if_block1) if_block1.c();
+				t0 = text(t0_value);
+				t1 = space();
+				if (if_block) if_block.c();
 				a.href = "#";
-				add_location(a, file, 19, 4, 438);
-				add_location(li, file, 18, 0, 429);
+				a.className = a_class_value = "Item__Link " + ctx.linkClasses + " svelte-wn34jl";
+				add_location(a, file, 28, 4, 709);
+				div.className = "Item svelte-wn34jl";
+				add_location(div, file, 27, 0, 686);
 				dispose = listen(a, "click", ctx.click_handler);
 			},
 
@@ -507,72 +486,62 @@ var app = (function () {
 			},
 
 			m: function mount(target, anchor) {
-				insert(target, li, anchor);
-				append(li, a);
-				if (if_block0) if_block0.m(a, null);
+				insert(target, div, anchor);
+				append(div, a);
 				append(a, t0);
-				append(a, t1);
-				append(li, t2);
-				if (if_block1) if_block1.m(li, null);
+				append(div, t1);
+				if (if_block) if_block.m(div, null);
 				current = true;
 			},
 
 			p: function update(changed, ctx) {
-				if (ctx.hasChildren) {
-					if (!if_block0) {
-						if_block0 = create_if_block_1(ctx);
-						if_block0.c();
-						if_block0.m(a, t0);
-					}
-				} else if (if_block0) {
-					if_block0.d(1);
-					if_block0 = null;
+				if ((!current || changed.item) && t0_value !== (t0_value = ctx.item.title)) {
+					set_data(t0, t0_value);
 				}
 
-				if ((!current || changed.item) && t1_value !== (t1_value = ctx.item.title)) {
-					set_data(t1, t1_value);
+				if ((!current || changed.linkClasses) && a_class_value !== (a_class_value = "Item__Link " + ctx.linkClasses + " svelte-wn34jl")) {
+					a.className = a_class_value;
 				}
 
 				if (ctx.children.length > 0) {
-					if (if_block1) {
-						if_block1.p(changed, ctx);
-						if_block1.i(1);
+					if (if_block) {
+						if_block.p(changed, ctx);
+						if_block.i(1);
 					} else {
-						if_block1 = create_if_block(ctx);
-						if_block1.c();
-						if_block1.i(1);
-						if_block1.m(li, null);
+						if_block = create_if_block(ctx);
+						if_block.c();
+						if_block.i(1);
+						if_block.m(div, null);
 					}
-				} else if (if_block1) {
+				} else if (if_block) {
 					group_outros();
 					on_outro(() => {
-						if_block1.d(1);
-						if_block1 = null;
+						if_block.d(1);
+						if_block = null;
 					});
 
-					if_block1.o(1);
+					if_block.o(1);
 					check_outros();
 				}
 			},
 
 			i: function intro(local) {
 				if (current) return;
-				if (if_block1) if_block1.i();
+				if (if_block) if_block.i();
 				current = true;
 			},
 
 			o: function outro(local) {
-				if (if_block1) if_block1.o();
+				if (if_block) if_block.o();
 				current = false;
 			},
 
 			d: function destroy(detaching) {
 				if (detaching) {
-					detach(li);
+					detach(div);
 				}
 
-				if (if_block0) if_block0.d();
-				if (if_block1) if_block1.d();
+				if (if_block) if_block.d();
 				dispose();
 			}
 		};
@@ -598,16 +567,17 @@ var app = (function () {
 			if ('item' in $$props) $$invalidate('item', item = $$props.item);
 		};
 
-		let hasChildren;
-		$$self.$$.update = ($$dirty = { item: 1 }) => {
+		let hasChildren, linkClasses;
+		$$self.$$.update = ($$dirty = { item: 1, hasChildren: 1 }) => {
 			if ($$dirty.item) { $$invalidate('hasChildren', hasChildren = item.meta.children && item.meta.children.count > 0); }
+			if ($$dirty.hasChildren) { $$invalidate('linkClasses', linkClasses = hasChildren ? 'icon icon-folder-inverse' : 'icon icon-doc-full-inverse'); }
 		};
 
 		return {
 			children,
 			item,
 			fetchChildren,
-			hasChildren,
+			linkClasses,
 			click_handler
 		};
 	}
@@ -687,7 +657,7 @@ var app = (function () {
 	}
 
 	function create_fragment$1(ctx) {
-		var div, ul, div_class_value, current;
+		var div1, div0, div1_class_value, current;
 
 		var each_value = ctx.topLevelItems(ctx.items);
 
@@ -712,15 +682,16 @@ var app = (function () {
 
 		return {
 			c: function create() {
-				div = element("div");
-				ul = element("ul");
+				div1 = element("div");
+				div0 = element("div");
 
 				for (var i = 0; i < each_blocks.length; i += 1) {
 					each_blocks[i].c();
 				}
-				add_location(ul, file$1, 57, 4, 1412);
-				div.className = div_class_value = "Drawer " + ctx.classes + " svelte-w9mnu";
-				add_location(div, file$1, 56, 0, 1377);
+				div0.className = "Drawer__Container";
+				add_location(div0, file$1, 57, 4, 1412);
+				div1.className = div1_class_value = "Drawer " + ctx.classes + " svelte-1gtbgfj";
+				add_location(div1, file$1, 56, 0, 1377);
 			},
 
 			l: function claim(nodes) {
@@ -728,11 +699,11 @@ var app = (function () {
 			},
 
 			m: function mount(target, anchor) {
-				insert(target, div, anchor);
-				append(div, ul);
+				insert(target, div1, anchor);
+				append(div1, div0);
 
 				for (var i = 0; i < each_blocks.length; i += 1) {
-					each_blocks[i].m(ul, null);
+					each_blocks[i].m(div0, null);
 				}
 
 				current = true;
@@ -752,7 +723,7 @@ var app = (function () {
 							each_blocks[i] = create_each_block$1(child_ctx);
 							each_blocks[i].c();
 							each_blocks[i].i(1);
-							each_blocks[i].m(ul, null);
+							each_blocks[i].m(div0, null);
 						}
 					}
 
@@ -761,8 +732,8 @@ var app = (function () {
 					check_outros();
 				}
 
-				if ((!current || changed.classes) && div_class_value !== (div_class_value = "Drawer " + ctx.classes + " svelte-w9mnu")) {
-					div.className = div_class_value;
+				if ((!current || changed.classes) && div1_class_value !== (div1_class_value = "Drawer " + ctx.classes + " svelte-1gtbgfj")) {
+					div1.className = div1_class_value;
 				}
 			},
 
@@ -782,7 +753,7 @@ var app = (function () {
 
 			d: function destroy(detaching) {
 				if (detaching) {
-					detach(div);
+					detach(div1);
 				}
 
 				destroy_each(each_blocks, detaching);

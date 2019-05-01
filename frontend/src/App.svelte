@@ -38,7 +38,7 @@
         right: 100px;
         left: 100px;
         background-color: #fff;
-        padding: 50px;
+        padding: 20px;
         z-index: -1000px;
         opacity: 0;
         height: fit-content;
@@ -55,9 +55,9 @@
 </style>
 
 <div class="Drawer {classes}">
-    <ul>
+    <div class="Drawer__Container">
         {#each topLevelItems(items) as item}
             <Item {item} />
         {/each}
-    </ul>
+    </div>
 </div>
