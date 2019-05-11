@@ -478,17 +478,17 @@ var app = (function () {
 				t2 = space();
 				if (if_block) if_block.c();
 				span.className = "icon icon-arrow-right svelte-zcnxam";
-				add_location(span, file, 51, 12, 1137);
+				add_location(span, file, 51, 12, 1174);
 				button.className = "" + ctx.buttonClasses + " svelte-zcnxam";
 				add_location(button, file, 50, 8, 1092);
 				a.href = "#drawer";
 				a.className = a_class_value = "Item__Link " + ctx.linkClasses + " svelte-zcnxam";
-				add_location(a, file, 53, 8, 1207);
+				add_location(a, file, 53, 8, 1244);
 				div0.className = "Item__Wrap svelte-zcnxam";
 				add_location(div0, file, 49, 4, 1059);
 				div1.className = "Item svelte-zcnxam";
 				add_location(div1, file, 48, 0, 1036);
-				dispose = listen(a, "click", ctx.click_handler);
+				dispose = listen(button, "click", ctx.click_handler);
 			},
 
 			l: function claim(nodes) {

@@ -48,10 +48,10 @@
 
 <div class="Item">
     <div class="Item__Wrap">
-        <button class="{buttonClasses}">
+        <button class="{buttonClasses}" on:click={() => fetchChildren(item)}>
             <span class="icon icon-arrow-right"></span>
         </button>
-        <a href="#drawer" class="Item__Link {linkClasses}" on:click={() => fetchChildren(item)}>
+        <a href="#drawer" class="Item__Link {linkClasses}">
             {item.title}
         </a>
     </div>
