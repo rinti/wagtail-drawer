@@ -1,4 +1,4 @@
 .Drawer.svelte-1gtbgfj{position:absolute;right:100px;left:100px;background-color:#fff;padding:20px;z-index:-1000px;opacity:0;height:fit-content;transition:opacity .4s ease-in-out, transform .4s ease-in-out;transform:translateY(-200px);will-change:opacity, transform}.Drawer--open.svelte-1gtbgfj{opacity:1;z-index:1000;transform:translateY(0)}
-.Item.svelte-wn34jl{padding-left:10px}.Item__Link.svelte-wn34jl{display:block;padding:5px 10px;border-bottom:1px solid #f1f1f1}
+.Item.svelte-zcnxam{padding:10px}.Item.svelte-zcnxam .icon.svelte-zcnxam:before{margin-right:8px}.Item__Link.svelte-zcnxam{font-size:1rem;display:block}.Item__Wrap.svelte-zcnxam{display:flex}.Item__Expand.svelte-zcnxam{border:0;font-size:1rem;padding:0}.Item__Expand--Hide.svelte-zcnxam{opacity:0;visibility:hidden;pointer-events:none}
 
 /*# sourceMappingURL=wagtail-drawer.css.map */

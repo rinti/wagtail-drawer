@@ -327,7 +327,7 @@ var app = (function () {
 		return child_ctx;
 	}
 
-	// (32:4) {#if children.length > 0}
+	// (58:4) {#if children.length > 0}
 	function create_if_block(ctx) {
 		var each_1_anchor, current;
 
@@ -418,7 +418,7 @@ var app = (function () {
 		};
 	}
 
-	// (33:8) {#each children as child}
+	// (59:8) {#each children as child}
 	function create_each_block(ctx) {
 		var current;
 
@@ -462,22 +462,32 @@ var app = (function () {
 	}
 
 	function create_fragment(ctx) {
-		var div, a, t0_value = ctx.item.title, t0, a_class_value, t1, current, dispose;
+		var div1, div0, button, span, t0, a, t1_value = ctx.item.title, t1, a_class_value, t2, current, dispose;
 
 		var if_block = (ctx.children.length > 0) && create_if_block(ctx);
 
 		return {
 			c: function create() {
-				div = element("div");
+				div1 = element("div");
+				div0 = element("div");
+				button = element("button");
+				span = element("span");
+				t0 = space();
 				a = element("a");
-				t0 = text(t0_value);
-				t1 = space();
+				t1 = text(t1_value);
+				t2 = space();
 				if (if_block) if_block.c();
-				a.href = "#";
-				a.className = a_class_value = "Item__Link " + ctx.linkClasses + " svelte-wn34jl";
-				add_location(a, file, 28, 4, 709);
-				div.className = "Item svelte-wn34jl";
-				add_location(div, file, 27, 0, 686);
+				span.className = "icon icon-arrow-right svelte-zcnxam";
+				add_location(span, file, 51, 12, 1137);
+				button.className = "" + ctx.buttonClasses + " svelte-zcnxam";
+				add_location(button, file, 50, 8, 1092);
+				a.href = "#drawer";
+				a.className = a_class_value = "Item__Link " + ctx.linkClasses + " svelte-zcnxam";
+				add_location(a, file, 53, 8, 1207);
+				div0.className = "Item__Wrap svelte-zcnxam";
+				add_location(div0, file, 49, 4, 1059);
+				div1.className = "Item svelte-zcnxam";
+				add_location(div1, file, 48, 0, 1036);
 				dispose = listen(a, "click", ctx.click_handler);
 			},
 
@@ -486,20 +496,28 @@ var app = (function () {
 			},
 
 			m: function mount(target, anchor) {
-				insert(target, div, anchor);
-				append(div, a);
-				append(a, t0);
-				append(div, t1);
-				if (if_block) if_block.m(div, null);
+				insert(target, div1, anchor);
+				append(div1, div0);
+				append(div0, button);
+				append(button, span);
+				append(div0, t0);
+				append(div0, a);
+				append(a, t1);
+				append(div1, t2);
+				if (if_block) if_block.m(div1, null);
 				current = true;
 			},
 
 			p: function update(changed, ctx) {
-				if ((!current || changed.item) && t0_value !== (t0_value = ctx.item.title)) {
-					set_data(t0, t0_value);
+				if (!current || changed.buttonClasses) {
+					button.className = "" + ctx.buttonClasses + " svelte-zcnxam";
 				}
 
-				if ((!current || changed.linkClasses) && a_class_value !== (a_class_value = "Item__Link " + ctx.linkClasses + " svelte-wn34jl")) {
+				if ((!current || changed.item) && t1_value !== (t1_value = ctx.item.title)) {
+					set_data(t1, t1_value);
+				}
+
+				if ((!current || changed.linkClasses) && a_class_value !== (a_class_value = "Item__Link " + ctx.linkClasses + " svelte-zcnxam")) {
 					a.className = a_class_value;
 				}
 
@@ -511,7 +529,7 @@ var app = (function () {
 						if_block = create_if_block(ctx);
 						if_block.c();
 						if_block.i(1);
-						if_block.m(div, null);
+						if_block.m(div1, null);
 					}
 				} else if (if_block) {
 					group_outros();
@@ -538,7 +556,7 @@ var app = (function () {
 
 			d: function destroy(detaching) {
 				if (detaching) {
-					detach(div);
+					detach(div1);
 				}
 
 				if (if_block) if_block.d();
@@ -567,10 +585,11 @@ var app = (function () {
 			if ('item' in $$props) $$invalidate('item', item = $$props.item);
 		};
 
-		let hasChildren, linkClasses;
+		let hasChildren, linkClasses, buttonClasses;
 		$$self.$$.update = ($$dirty = { item: 1, hasChildren: 1 }) => {
 			if ($$dirty.item) { $$invalidate('hasChildren', hasChildren = item.meta.children && item.meta.children.count > 0); }
 			if ($$dirty.hasChildren) { $$invalidate('linkClasses', linkClasses = hasChildren ? 'icon icon-folder-inverse' : 'icon icon-doc-full-inverse'); }
+			if ($$dirty.hasChildren) { $$invalidate('buttonClasses', buttonClasses = hasChildren ? 'Item__Expand' : 'Item__Expand Item__Expand--Hide'); }
 		};
 
 		return {
@@ -578,6 +597,7 @@ var app = (function () {
 			item,
 			fetchChildren,
 			linkClasses,
+			buttonClasses,
 			click_handler
 		};
 	}
